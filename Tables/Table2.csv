@@ -1,0 +1,9 @@
+,Comparison,Condition,Violation,p-value,BF₀₁,η²
+1,Fast vs. Slow subjects,RT Below Median (1/2) vs. RT Above Median (1/2),6ms vs. 15ms,0.549,3.034,0.0009846
+2,Varying Go Response Deadlines,300ms (3/6) vs.500ms (4/7) vs. 700ms (5/8),-16ms vs. -5ms vs. 3ms,0.011,2.478,0.008
+3,Low vs. High Stop Probability,.2 (9/11) vs. .4 Stop Probability (10/12),8ms vs. 27ms,0.127,2.582,0.007
+4,Saccadic vs. Manual Responses,Saccadic (15) vs. Manual Responses (9),-9ms vs. -3ms,0.754,3.799,9.382e-05
+5,Auditory vs. Visual Responses,Auditory (16/17) vs. Visual Responses (18/19),-22ms vs. -13ms,0.637,3.095,0.0007657
+6,Stimulus Selective vs. Simple Stopping,Stimulus Selective (20) vs. Simple Stopping (9),55ms vs. -1ms,0.064,0.802,0.018
+7,Stimulus Selective vs. Simple Stopping,Stimulus Selective (13/22/24) vs. Simple Stopping (11/12/21/23),49ms vs. 24ms,0.018,0.794,0.014
+8,Motor Selective vs. Simple Stopping,Motor Selective (14) vs. Simple Stopping (11/12),69ms vs. 36ms,0.019,1.467,0.015
