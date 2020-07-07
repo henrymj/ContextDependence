@@ -410,7 +410,7 @@ def calc_SSRT_wReplacement(subj_df, maxRT=None):
     nth_index = int(np.rint(P_respond*len(useful_RTs))) - 1
     if nth_index < 0:
         nth_RT = useful_RTs[0]
-    elif nth_index >= len(goRTs):
+    elif nth_index >= len(useful_RTs):
         nth_RT = useful_RTs[-1]
     else:
         nth_RT = useful_RTs[nth_index]
