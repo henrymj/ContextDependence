@@ -317,8 +317,10 @@ def calc_SSRT_wOmission(subj_df):
     corrected_P_respond = P_respond/(1-omission_rate)
 
     #get nth RT using corrected P(respond | signal)
-    nth_index = int(np.ceil(corrected_P_respond*num_go_responses)) - 1
-    if nth_index >= len(goRTs): #if nth_index too large, take largest RT - SHOULD NOT HAPPEN!?!
+    nth_index = int(np.rint(P_respond*len(goRTs))) - 1
+    if nth_index < 0:
+        nth_RT = goRTs[0]
+    elif nth_index >= len(goRTs):
         nth_RT = goRTs[-1]
     else:
         nth_RT = goRTs[nth_index]
@@ -382,10 +384,7 @@ def calc_SSRT_wReplacement(subj_df, maxRT=None):
 
     # 1 - create index of RTs to include 
     subj_df['include_for_SSRT'] = 0
-
     subj_df.loc[subj_df[trialType_col]==goTrialKey, 'include_for_SSRT'] = 1 #add all go trials 
-    subj_df.loc[(subj_df[stopFailRT]<subj_df[SSD_col])\
-                & (subj_df[stopFailRT]>0.0), 'include_for_SSRT'] = 1 #add all stopFailures greater than 0 but faster than SSD
 
     # 2 - get values for each RT being included
     subj_df['RTs_for_SSRT'] = np.nan
@@ -395,12 +394,9 @@ def calc_SSRT_wReplacement(subj_df, maxRT=None):
     subj_df.loc[subj_df.include_for_SSRT==1, 'RTs_for_SSRT'] = goRTs 
 
     # fill go ommissions (and fast stopFailureRTs) with max GoRt
-    if len(subj_df.loc[(subj_df.include_for_SSRT==1) & (subj_df.RTs_for_SSRT.isnull())]) > 0:
-        subj_df.loc[(subj_df.include_for_SSRT==1) & (subj_df.RTs_for_SSRT.isnull()), 'RTs_for_SSRT'] = maxRT
-
-    # overwrite StopFailureRTs with actual values
-    subj_df.loc[(subj_df.include_for_SSRT==1) & subj_df[stopFailRT]>0.0, 'RTs_for_SSRT'] = \
-    subj_df.loc[(subj_df.include_for_SSRT==1) & subj_df[stopFailRT]>0.0, stopFailRT]
+    go_omission_idx = (subj_df.include_for_SSRT==1) & (subj_df.RTs_for_SSRT.isnull())
+    if len(subj_df.loc[go_omission_idx]) > 0:
+        subj_df.loc[go_omission_idx, 'RTs_for_SSRT'] = maxRT
 
     # 3 - get Nth RT
     # get RTs used for SSRT and sort 
@@ -411,8 +407,10 @@ def calc_SSRT_wReplacement(subj_df, maxRT=None):
     num_RTs = len(useful_RTs)
 
     # Get the nth_RT based on P(respond | Signal)
-    nth_index = int(np.ceil(P_respond*num_RTs)) - 1
-    if nth_index >= len(useful_RTs): #if nth_index too large, take largest RT
+    nth_index = int(np.rint(P_respond*len(useful_RTs))) - 1
+    if nth_index < 0:
+        nth_RT = useful_RTs[0]
+    elif nth_index >= len(goRTs):
         nth_RT = useful_RTs[-1]
     else:
         nth_RT = useful_RTs[nth_index]
